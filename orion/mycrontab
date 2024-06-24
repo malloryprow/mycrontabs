@@ -1,0 +1,1 @@
+00 09 * * * /home/mrow/mycronjobs/scripts/get_data_for_orion.sh 1> /home/mrow/mycronjobs/logs/get_data_for_orion.log 2>&1
