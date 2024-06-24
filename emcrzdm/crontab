@@ -1,0 +1,19 @@
+## GFS PROD
+45 14 * * * python3 /home/people/emc/www/htdocs/users/verification/global/gfs/scripts/untar_images_wave.py --envir=prod --date=$(date -d "1 day ago" +\%Y\%m\%d) 1> /home/people/emc/mrow/cron_jobs/logs/log_prod_untar_images_wave.out 2>&1
+30 20 * * * python3 /home/people/emc/www/htdocs/users/verification/global/gfs/scripts/untar_images_headline.py --envir=prod --date=$(date -d "1 day ago" +\%Y\%m\%d) 1> /home/people/emc/mrow/cron_jobs/logs/log_prod_untar_images_headline.out 2>&1
+30 21 * * * python3 /home/people/emc/www/htdocs/users/verification/global/gfs/scripts/untar_images_atmos.py --envir=prod --date=$(date -d "1 day ago" +\%Y\%m\%d) 1> /home/people/emc/mrow/cron_jobs/logs/log_prod_untar_images_atmos.out 2>&1
+00 04 * * * python3 /home/people/emc/www/htdocs/users/verification/global/gfs/scripts/gather_precip_spatial_maps.py --envir=prod --date=$(date -d "1 day ago" +\%Y\%m\%d) 1> /home/people/emc/mrow/cron_jobs/logs/log_prod_gather_precip_spatial_maps.out 2>&1
+#15 21 3 * * python3 /home/people/emc/www/htdocs/users/verification/global/gfs/scripts/untar_images_atmos_long_term.py --envir=para --date=$(date -d "1 month ago" +\%Y\%m) 1> /home/people/emc/mrow/cron_jobs/logs/log_para_untar_images_atmos_long_term.out 2>&1
+
+## GFS PARA
+
+## GFS DEV
+00 15 * * * python3 /home/people/emc/www/htdocs/users/verification/global/gfs/scripts/untar_images_wave.py --envir=dev --date=$(date -d "1 day ago" +\%Y\%m\%d) 1> /home/people/emc/mrow/cron_jobs/logs/log_dev_untar_images_wave.out 2>&1
+35 20 * * * python3 /home/people/emc/www/htdocs/users/verification/global/gfs/scripts/untar_images_headline.py --envir=dev --date=$(date -d "1 day ago" +\%Y\%m\%d) 1> /home/people/emc/mrow/cron_jobs/logs/log_dev_untar_images_headline.out 2>&1
+30 23 * * * python3 /home/people/emc/www/htdocs/users/verification/global/gfs/scripts/untar_images_atmos.py --envir=dev --date=$(date -d "1 day ago" +\%Y\%m\%d) 1> /home/people/emc/mrow/cron_jobs/logs/log_dev_untar_images_atmos.out 2>&1
+00 04 * * * python3 /home/people/emc/www/htdocs/users/verification/global/gfs/scripts/gather_precip_spatial_maps.py --envir=dev --date=$(date -d "1 day ago" +\%Y\%m\%d) 1> /home/people/emc/mrow/cron_jobs/logs/log_dev_gather_precip_spatial_maps.out 2>&1
+
+## GFS TEST
+
+## GFS EXPR - GRAPHCASTGFS
+15 21 * * * python3 /home/people/emc/www/htdocs/users/verification/global/gfs/scripts/untar_images_atmos.py --envir=expr --date=$(date -d "1 day ago" +\%Y\%m\%d) 1> /home/people/emc/mrow/cron_jobs/logs/log_expr_untar_images_atmos.out 2>&1
