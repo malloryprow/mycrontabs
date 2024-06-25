@@ -1,0 +1,24 @@
+SHELL=/bin/bash -l
+00 12 * * * /u/mallory.row/cron_jobs/scripts/run_transfer_data_across_machines.sh > /u/mallory.row/cron_jobs/logs/log_run_transfer_data_across_machines.out 2>&1
+
+# EVS
+15 00 * * * /u/mallory.row/cron_jobs/scripts/run_monitor_evs_para.sh > /u/mallory.row/cron_jobs/logs/log_run_monitor_evs_para.out 2>&1
+## global_det atmos
+15 18 * * * /u/mallory.row/cron_jobs/scripts/run_evs_global_det_atmos_prep.sh > /u/mallory.row/cron_jobs/logs/log_run_evs_global_det_atmos_prep.out 2>&1
+45 18 * * * /u/mallory.row/cron_jobs/scripts/run_evs_global_det_atmos_stats.sh > /u/mallory.row/cron_jobs/logs/log_run_evs_global_det_atmos_stats.out 2>&1
+00 20 * * * /u/mallory.row/cron_jobs/scripts/run_evs_global_det_atmos_plots.sh > /u/mallory.row/cron_jobs/logs/log_run_evs_global_det_atmos_plots.out 2>&1
+#45 18 2 * * /u/mallory.row/cron_jobs/scripts/run_evs_global_det_atmos_stats_long_term.sh > /u/mallory.row/cron_jobs/logs/log_run_evs_global_det_atmos_stats_long_term.out 2>&1
+#00 05 3 * * /u/mallory.row/cron_jobs/scripts/run_evs_global_det_atmos_plots_long_term.sh > /u/mallory.row/cron_jobs/logs/log_run_evs_global_det_atmos_plots_long_term.out 2>&1
+00 22 * * * /u/mallory.row/cron_jobs/scripts/run_transfer2emcrzdm_evs_dev_plots_global_det_atmos.sh > /u/mallory.row/cron_jobs/logs/log_run_transfer2emcrzdm_evs_dev_plots_global_det_atmos.out 2>&1
+30 20 * * * /u/mallory.row/cron_jobs/scripts/run_transfer2emcrzdm_evs_dev_plots_global_det_headline.sh > /u/mallory.row/cron_jobs/logs/log_run_transfer2emcrzdm_evs_dev_plots_global_det_headline.out 2>&1
+## global_det wave
+15 13 * * * /u/mallory.row/cron_jobs/scripts/run_evs_global_det_wave_prep.sh > /u/mallory.row/cron_jobs/logs/log_run_evs_global_det_wave_prep.out 2>&1
+25 13 * * * /u/mallory.row/cron_jobs/scripts/run_evs_global_det_wave_stats.sh > /u/mallory.row/cron_jobs/logs/log_run_evs_global_det_wave_stats.out 2>&1
+50 13 * * * /u/mallory.row/cron_jobs/scripts/run_evs_global_det_wave_plots.sh > /u/mallory.row/cron_jobs/logs/log_run_evs_global_det_wave_plots.out 2>&1
+45 14 * * * /u/mallory.row/cron_jobs/scripts/run_transfer2emcrzdm_evs_dev_plots_global_det_wave.sh > /u/mallory.row/cron_jobs/logs/log_run_transfer2emcrzdm_evs_dev_plots_global_det_wave.out 2>&1
+
+# GraphcastGFS - EVS 
+45 12 * * * /u/mallory.row/cron_jobs/scripts/run_get_aws_graphcastgfs.sh > /u/mallory.row/cron_jobs/logs/log_run_get_aws_graphcastgfs.out 2>&1
+45 18 * * * /u/mallory.row/cron_jobs/scripts/run_evs_graphcast_atmos_stats.sh > /u/mallory.row/cron_jobs/logs/log_run_evs_graphcast_atmos_stats.out 2>&1
+00 20 * * * /u/mallory.row/cron_jobs/scripts/run_evs_graphcast_atmos_plots.sh > /u/mallory.row/cron_jobs/logs/log_run_evs_graphcast_atmos_plots.out 2>&1
+00 21 * * * /u/mallory.row/cron_jobs/scripts/run_transfer2emcrzdm_graphcastgfs_plots_global_det_atmos.sh > /u/mallory.row/cron_jobs/logs/log_run_transfer2emcrzdm_graphcastgfs_plots_global_det_atmos.out 2>&1
