@@ -11,6 +11,7 @@ print("BEGIN: "+sys.argv[0]+" at "+str(datetime.datetime.today())+"\n")
 working_dir = '/home/'+os.environ['USER']+'/mycronjobs/out'
 base_user_dir = '/work/noaa/ovp/'+os.environ['USER']
 prepbufr_archive_base_dir = os.path.join(base_user_dir, 'prepbufr')
+prepbufr_rstprod_archive_base_dir = '/work/noaa/rstprod/verif/prepbufr'
 ccpa_archive_base_dir = os.path.join(base_user_dir, 'obdata')
 metplus_archive_base_dir = os.path.join(base_user_dir, 'archive',
                                         'metplus_data', 'by_VSDB')
@@ -137,7 +138,7 @@ check_and_make_directory(
 # Prepbufr information dictionary
 prepbufr_dict = {
     'gdas': {
-         'NOMADS_dir': 'obsproc/v1.0',
+         'NOMADS_dir': 'obsproc/v1.2',
          'NOMADS_file_format_list': [
              'gdas.{date?fmt=%Y%m%d}'
              +'/gdas.t{time?fmt=%H}z.prepbufr.nr'
@@ -148,7 +149,7 @@ prepbufr_dict = {
          'time_list': ['000000', '060000', '120000', '180000']
      } ,
      'nam': {
-         'NOMADS_dir': 'obsproc/v1.0',
+         'NOMADS_dir': 'obsproc/v1.2',
          'NOMADS_file_format_list': [
              'nam.{date?fmt=%Y%m%d}/nam.t{time?fmt=%H}z.prepbufr.tm00.nr',
              'nam.{date?fmt=%Y%m%d}/nam.t{time?fmt=%H}z.prepbufr.tm03.nr'
@@ -253,7 +254,129 @@ for prepbufr in list(prepbufr_dict.keys()):
 ##### Get from hera
 from_hera_working_dir_PDY = os.path.join(working_dir_PDY, 'from_hera')
 check_and_make_directory(from_hera_working_dir_PDY)
-##### 1. Copy CCPA files from Hera
+##### 1. Copy prepbufr files from Hera
+prepbufr_rstprod_dict = {
+    'gdas': {
+         'hera_dir': 'prepbufr',
+         'hera_file_format_list': [
+             'prepbufr.gdas.{date?fmt=%Y%m%d}{time?fmt=%H}'
+         ],
+         'archive_file_format_list': [
+             'prepbufr.gdas.{date?fmt=%Y%m%d}{time?fmt=%H}'
+         ],
+         'time_list': ['000000', '060000', '120000', '180000']
+     },
+     'nam': {
+         'hera_dir': 'prepbufr',
+         'hera_file_format_list': [
+             'nam.{date?fmt=%Y%m%d}/nam.t{time?fmt=%H}z.prepbufr.tm00',
+             'nam.{date?fmt=%Y%m%d}/nam.t{time?fmt=%H}z.prepbufr.tm03'
+         ],
+         'archive_file_format_list': [
+             'nam.{date?fmt=%Y%m%d}/nam.t{time?fmt=%H}z.prepbufr.tm00',
+             'nam.{date?fmt=%Y%m%d}/nam.t{time?fmt=%H}z.prepbufr.tm03'
+         ],
+         'time_list': ['000000', '060000', '120000', '180000']
+    }
+}
+print("\n- Checking GDAS and NAM restricted prepbufr archive files in "
+      +prepbufr_rstprod_archive_base_dir+", getting missing files from Hera")
+for prepbufr_rstprod in list(prepbufr_rstprod_dict.keys()):
+    # Set up information
+    prepbufr_rstprod_info_dict = prepbufr_rstprod_dict[prepbufr_rstprod]
+    prepbufr_rstprod_hera_dir = os.path.join(
+        hera_base_user_dir, prepbufr_rstprod_info_dict['hera_dir'],
+        prepbufr_rstprod
+    )
+    prepbufr_rstprod_hera_file_format_list = (
+        prepbufr_rstprod_info_dict['hera_file_format_list']
+    )
+    prepbufr_rstprod_archive_file_format_list = (
+        prepbufr_rstprod_info_dict['archive_file_format_list']
+    )
+    prepbufr_rstprod_time_list = prepbufr_rstprod_info_dict['time_list']
+    # Set up directories
+    prepbufr_rstprod_from_hera_working_dir_PDY = os.path.join(
+        from_hera_working_dir_PDY, 'prepbufr_rstprod', prepbufr_rstprod
+    )
+    check_and_make_directory(prepbufr_rstprod_from_hera_working_dir_PDY)
+    prepbufr_rstprod_archive_dir = os.path.join(prepbufr_rstprod_archive_base_dir,
+                                                prepbufr_rstprod)
+    check_and_make_directory(prepbufr_rstprod_archive_dir)
+    ## Get files
+    print("-- Checking "+prepbufr_rstprod+" files")
+    for PDYm in list(PDYm_dict.keys()):
+        for time in prepbufr_rstprod_time_list:
+            PDYm_date_time = PDYm_dict[PDYm]+time
+            for prepbufr_rstprod_archive_file_format \
+                    in prepbufr_rstprod_archive_file_format_list:
+                idx = prepbufr_rstprod_archive_file_format_list.index(
+                    prepbufr_rstprod_archive_file_format
+                )
+                 # Archive file information
+                prepbufr_rstprod_archive_file_name = format_filler(
+                    prepbufr_rstprod_archive_file_format, PDYm_date_time
+                )
+                prepbufr_rstprod_archive_file = os.path.join(
+                    prepbufr_rstprod_archive_dir, prepbufr_rstprod_archive_file_name
+                )
+                print("--- Checking for file: "+prepbufr_rstprod_archive_file)
+                if not os.path.exists(prepbufr_rstprod_archive_file):
+                    print("---- "+prepbufr_rstprod_archive_file+" does not exist, "
+                          +"retrieving file from Hera.")
+                    prepbufr_rstprod_archive_file_dir = (
+                        prepbufr_rstprod_archive_file.rpartition('/')[0]
+                    )
+                    check_and_make_directory(prepbufr_rstprod_archive_file_dir)
+                    os.system('chmod 750 '+prepbufr_rstprod_archive_file_dir)
+                    os.system('chgrp rstprod '+prepbufr_rstprod_archive_file_dir)
+                    # Hera file information
+                    prepbufr_rstprod_hera_file_format = (
+                       prepbufr_rstprod_hera_file_format_list[idx]
+                    )
+                    prepbufr_rstprod_hera_file_name = format_filler(
+                        prepbufr_rstprod_hera_file_format, PDYm_date_time
+                    )
+                    prepbufr_rstprod_hera_file = os.path.join(
+                        prepbufr_rstprod_hera_dir, prepbufr_rstprod_hera_file_name
+                    )
+                    print(prepbufr_rstprod_hera_file)
+                    # Working file information
+                    prepbufr_rstprod_working_file = os.path.join(
+                        prepbufr_rstprod_from_hera_working_dir_PDY,
+                        prepbufr_rstprod_archive_file_name
+                    )
+                    prepbufr_rstprod_working_file_dir = (
+                        prepbufr_rstprod_working_file.rpartition('/')[0]
+                    )
+                    check_and_make_directory(prepbufr_rstprod_working_file_dir)
+                    # Get file
+                    RSYNC_cmd = subprocess.run(
+                        [RSYNC,
+                         '-ahr', '-P',
+                         hera_user+'@'+hera_client+':'
+                         +prepbufr_rstprod_hera_file,
+                         prepbufr_rstprod_working_file]
+                    )
+                    if RSYNC_cmd.returncode == 0:
+                        CP_cmd = subprocess.run(
+                            [CP,
+                             prepbufr_rstprod_working_file,
+                             prepbufr_rstprod_archive_file]
+                        )
+                        if CP_cmd.returncode != 0:
+                            print("***ERROR*** Could not cp "
+                                  +prepbufr_rstprod_working_file+" to "
+                                  +prepbufr_rstprod_archive_file)
+                        else:
+                            # Change permissions
+                            os.system('chmod 650 '+prepbufr_rstprod_archive_file)
+                            os.system('chgrp rstprod '+prepbufr_rstprod_archive_file)
+                    else:
+                        print("***ERROR*** Could not rsync "+prepbufr_rstprod_hera_file)
+                else:
+                    print("---- "+prepbufr_archive_file+" exists ")
+##### 2. Copy CCPA files from Hera
 check_and_make_directory(
     os.path.join(from_hera_working_dir_PDY, 'ccpa')
 )
@@ -363,7 +486,7 @@ for ccpa_accum in list(ccpa_accum_dict.keys()):
                         print("***ERROR*** Could not rsync "+ccpa_accum_hera_file)
                 else:
                     print("---- "+ccpa_accum_archive_file+" exists")
-##### 2. Copy METplus archive files from Hera
+##### 3. Copy METplus archive files from Hera
 check_and_make_directory(
     os.path.join(from_hera_working_dir_PDY, 'metplus_data')
 )
