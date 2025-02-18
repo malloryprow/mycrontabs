@@ -22,3 +22,6 @@ SHELL=/bin/bash -l
 45 18 * * * /u/mallory.row/cron_jobs/scripts/run_evs_graphcast_atmos_stats.sh > /u/mallory.row/cron_jobs/logs/log_run_evs_graphcast_atmos_stats.out 2>&1
 00 20 * * * /u/mallory.row/cron_jobs/scripts/run_evs_graphcast_atmos_plots.sh > /u/mallory.row/cron_jobs/logs/log_run_evs_graphcast_atmos_plots.out 2>&1
 00 21 * * * /u/mallory.row/cron_jobs/scripts/run_transfer2emcrzdm_graphcastgfs_plots_global_det_atmos.sh > /u/mallory.row/cron_jobs/logs/log_run_transfer2emcrzdm_graphcastgfs_plots_global_det_atmos.out 2>&1
+
+# emc.vpppg Parallel Monitoring
+00 10 * * * /u/mallory.row/cron_jobs/scripts/run_evs_util_monitor_check_logs.sh > /u/mallory.row/cron_jobs/logs/log_run_evs_util_monitor_check_logs.out 2>&1
