@@ -17,3 +17,16 @@
 
 ## GFS EXPR - GRAPHCASTGFS
 15 21 * * * python3 /home/people/emc/www/htdocs/users/verification/global/gfs/scripts/untar_images_atmos.py --envir=expr --date=$(date -d "1 day ago" +\%Y\%m\%d) 1> /home/people/emc/mrow/cron_jobs/logs/log_expr_untar_images_atmos.out 2>&1
+
+
+## PROD
+00 04 * * * python3 /home/people/emc/www/htdocs/users/verification/precip/scripts/gather_precip_spatial_maps.py --envir=prod --date=$(date -d "1 day ago" +\%Y\%m\%d) 1> /home/people/emc/mrow/cron_jobs/logs/log_prod_gather_precip_spatial_maps_at0400.out 2>&1
+00 10 * * * python3 /home/people/emc/www/htdocs/users/verification/precip/scripts/gather_precip_spatial_maps.py --envir=prod --date=$(date -d "1 day ago" +\%Y\%m\%d) 1> /home/people/emc/mrow/cron_jobs/logs/log_prod_gather_precip_spatial_maps_at1000.out 2>&1
+00 16 * * * python3 /home/people/emc/www/htdocs/users/verification/precip/scripts/gather_precip_spatial_maps.py --envir=prod --date=$(date -d "1 day ago" +\%Y\%m\%d) 1> /home/people/emc/mrow/cron_jobs/logs/log_prod_gather_precip_spatial_maps_at1600.out 2>&1
+00 22 * * * python3 /home/people/emc/www/htdocs/users/verification/precip/scripts/gather_precip_spatial_maps.py --envir=prod --date=$(date -d "1 day ago" +\%Y\%m\%d) 1> /home/people/emc/mrow/cron_jobs/logs/log_prod_gather_precip_spatial_maps_at2200.out 2>&1
+
+## DEV
+00 04 * * * python3 /home/people/emc/www/htdocs/users/verification/precip/scripts/gather_precip_spatial_maps.py --envir=dev --date=$(date -d "1 day ago" +\%Y\%m\%d) 1> /home/people/emc/mrow/cron_jobs/logs/log_dev_gather_precip_spatial_maps_at0400.out 2>&1
+00 10 * * * python3 /home/people/emc/www/htdocs/users/verification/precip/scripts/gather_precip_spatial_maps.py --envir=dev --date=$(date -d "1 day ago" +\%Y\%m\%d) 1> /home/people/emc/mrow/cron_jobs/logs/log_dev_gather_precip_spatial_maps_at1000.out 2>&1
+00 16 * * * python3 /home/people/emc/www/htdocs/users/verification/precip/scripts/gather_precip_spatial_maps.py --envir=dev --date=$(date -d "1 day ago" +\%Y\%m\%d) 1> /home/people/emc/mrow/cron_jobs/logs/log_dev_gather_precip_spatial_maps_at1600.out 2>&1
+00 22 * * * python3 /home/people/emc/www/htdocs/users/verification/precip/scripts/gather_precip_spatial_maps.py --envir=dev --date=$(date -d "1 day ago" +\%Y\%m\%d) 1> /home/people/emc/mrow/cron_jobs/logs/log_dev_gather_precip_spatial_maps_at2200.out 2>&1

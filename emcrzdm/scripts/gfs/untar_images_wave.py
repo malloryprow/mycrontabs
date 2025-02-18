@@ -5,6 +5,7 @@ import sys
 
 gfs_base_dir = '/home/people/emc/www/htdocs/users/verification/global/gfs'
 prod_tar_files_dir = '/common/data/model/com/evs/v1.0/global_det'
+dev_tar_files_dir = '/home/people/emc/www/htdocs/users/verification/emc.vpppg/dev_tar_files/global_det'
 
 def usage():
     """! How to call this script.
@@ -67,6 +68,11 @@ if arg_envir == 'prod':
         prod_tar_files_dir, f"wave.{arg_date}",
         f"evs.plots.global_det.wave.*.v{arg_date}.tar"
     )
+elif arg_envir == 'dev':
+    tar_file_wildcard = os.path.join(
+        dev_tar_files_dir, f"wave.{arg_date}",
+        f"evs.plots.global_det.wave.*.v{arg_date}.tar"
+    )
 else:
     tar_file_wildcard = os.path.join(
         gfs_envir_wave_dir, 'tar_files',
@@ -86,5 +92,5 @@ for tar_file in tar_file_list:
         print(f"Making {image_dir}")
         os.makedirs(image_dir)
     os.system('tar -xvf '+tar_file+' -C '+image_dir)
-    if arg_envir != 'prod':
+    if arg_envir not in ['prod', 'dev']:
         os.remove(tar_file)

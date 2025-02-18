@@ -5,6 +5,7 @@ import sys
 
 gfs_base_dir = '/home/people/emc/www/htdocs/users/verification/global/gfs'
 prod_tar_files_dir = '/common/data/model/com/evs/v1.0/global_det'
+dev_tar_files_dir = '/home/people/emc/www/htdocs/users/verification/emc.vpppg/dev_tar_files/global_det'
 
 def usage():
     """! How to call this script.
@@ -68,6 +69,11 @@ if arg_envir == 'prod':
         prod_tar_files_dir, f"atmos.{arg_date}",
         f"evs.plots.global_det.atmos.*.v{arg_date}.tar"
     )
+elif arg_envir == 'dev':
+    big_tar_file_wildcard = os.path.join(
+        dev_tar_files_dir, f"atmos.{arg_date}",
+        f"evs.plots.global_det.atmos.*.v{arg_date}.tar"
+    )
 else:
     big_tar_file_wildcard = os.path.join(
         gfs_envir_atmos_dir, 'tar_files',
@@ -92,7 +98,7 @@ for big_tar_file in big_tar_file_list:
         continue
     for small_tar_file in small_tar_file_list:
         if big_tar_file_verif_case_type == 'grid2obs_sfc' \
-                and arg_envir in ['prod', 'para']:
+                and arg_envir in ['prod', 'para', 'dev', 'test']:
             if 'cape_l0' in small_tar_file or 'cape_l90' in small_tar_file:
                 image_subdir = 'cape'
             elif 'hgt_ceiling' in small_tar_file:
@@ -136,5 +142,5 @@ for big_tar_file in big_tar_file_list:
         print(f"Untarring {small_tar_file} to {image_dir}")
         os.system('tar -xvf '+small_tar_file+' -C '+image_dir)
         os.remove(small_tar_file)
-    if arg_envir != 'prod':
+    if arg_envir not in ['prod', 'dev']:
         os.remove(big_tar_file)

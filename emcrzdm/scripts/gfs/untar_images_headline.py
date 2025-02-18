@@ -5,6 +5,7 @@ import sys
 
 gfs_base_dir = '/home/people/emc/www/htdocs/users/verification/global/gfs'
 prod_tar_files_dir = '/common/data/model/com/evs/v1.0/global_det'
+dev_tar_files_dir = '/home/people/emc/www/htdocs/users/verification/emc.vpppg/dev_tar_files/global_det'
 
 def usage():
     """! How to call this script.
@@ -65,6 +66,9 @@ else:
 if arg_envir == 'prod':
     tar_file = os.path.join(prod_tar_files_dir, f"headline.{arg_date}",
                             f"evs.plots.global_det.atmos.headline.v{arg_date}.tar")
+elif arg_envir == 'dev':
+    tar_file = os.path.join(dev_tar_files_dir, f"headline.{arg_date}",
+                            f"evs.plots.global_det.atmos.headline.v{arg_date}.tar")
 else:
     tar_file = os.path.join(gfs_envir_atmos_dir, 'tar_files',
                             f"evs.plots.global_det.atmos.headline.v{arg_date}.tar")
@@ -77,5 +81,5 @@ if not os.path.exists(image_dir):
     os.makedirs(image_dir)
 print(f"Untarring {tar_file} to {image_dir}")
 os.system('tar -xvf '+tar_file+' -C '+image_dir)
-if arg_envir != 'prod':
+if arg_envir not in ['prod', 'dev']:
     os.remove(tar_file)
