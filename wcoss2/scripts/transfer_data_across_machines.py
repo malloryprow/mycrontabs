@@ -226,9 +226,9 @@ def rsync_to_machines(source, hera_dest, jet_dest):
         print("---- Copying to Hera: "+hera_dest)
         hera_client_dest = hera_user+'@'+hera_client+':'+hera_dest
         rsync_cmd(source, hera_client_dest)
-        print("---- Copying to Jet: "+jet_dest)
-        jet_client_dest = jet_user+'@'+jet_client+':'+jet_dest
-        rsync_cmd(source, jet_client_dest)
+        #print("---- Copying to Jet: "+jet_dest)
+        #jet_client_dest = jet_user+'@'+jet_client+':'+jet_dest
+        #rsync_cmd(source, jet_client_dest)
 
 ### Set up information
 ## CCPA
@@ -461,40 +461,40 @@ if wcoss2_dict['DEV'] == wcoss2_dict['CURRENT']:
                     hera_prepbufr_nam_file,
                     jet_prepbufr_nam_file
                 )
-     print("\n-- Copying GFS archive files")
-     for PDYm in list(PDYm_dict.keys()):
-         #wcoss2_gfs_PDYm_file_wildcard = os.path.join(
-         #    wcoss2_gfs_archive, 'pgb*.'+PDYm_dict[PDYm]+'*'
-         #)
-         #wcoss2_gfs_PDYm_file_list = glob.glob(wcoss2_gfs_PDYm_file_wildcard)
-         #print("--- GFS Archive Files for "+PDYm_dict[PDYm]+"..."
-         #      +wcoss2_gfs_PDYm_file_wildcard)
-         print("--- GFS Archive Files for "+PDYm_dict[PDYm])
-         wcoss2_gfs_PDYm_file_list = [
-             'pgbanl.gfs.'+PDYm_dict[PDYm]+'00',
-             'pgbanl.gfs.'+PDYm_dict[PDYm]+'06',
-             'pgbanl.gfs.'+PDYm_dict[PDYm]+'12',
-             'pgbanl.gfs.'+PDYm_dict[PDYm]+'18',
-             'pgbanl.gdas.'+PDYm_dict[PDYm]+'00',
-             'pgbanl.gdas.'+PDYm_dict[PDYm]+'06',
-             'pgbanl.gdas.'+PDYm_dict[PDYm]+'12',
-             'pgbanl.gdas.'+PDYm_dict[PDYm]+'18',
-             'pgbf00.gfs.'+PDYm_dict[PDYm]+'00',
-             'pgbf00.gfs.'+PDYm_dict[PDYm]+'06',
-             'pgbf00.gfs.'+PDYm_dict[PDYm]+'12',
-             'pgbf00.gfs.'+PDYm_dict[PDYm]+'18',
-             'pgbf00.gdas.'+PDYm_dict[PDYm]+'00',
-             'pgbf00.gdas.'+PDYm_dict[PDYm]+'06',
-             'pgbf00.gdas.'+PDYm_dict[PDYm]+'12',
-             'pgbf00.gdas.'+PDYm_dict[PDYm]+'18',
-         ]
-         for wcoss2_gfs_PDYm_file in wcoss2_gfs_PDYm_file_list:
-             rsync_to_machines(
-                 os.path.join(wcoss2_gfs_archive,
-                              wcoss2_gfs_PDYm_file),
-                 hera_gfs_archive+'/.',
-                 jet_gfs_archive+'/.'
-             )
+     #print("\n-- Copying GFS archive files")
+     #for PDYm in list(PDYm_dict.keys()):
+     #    #wcoss2_gfs_PDYm_file_wildcard = os.path.join(
+     #    #    wcoss2_gfs_archive, 'pgb*.'+PDYm_dict[PDYm]+'*'
+     #    #)
+     #    #wcoss2_gfs_PDYm_file_list = glob.glob(wcoss2_gfs_PDYm_file_wildcard)
+     #    #print("--- GFS Archive Files for "+PDYm_dict[PDYm]+"..."
+     #    #      +wcoss2_gfs_PDYm_file_wildcard)
+     #    print("--- GFS Archive Files for "+PDYm_dict[PDYm])
+     #    wcoss2_gfs_PDYm_file_list = [
+     #        'pgbanl.gfs.'+PDYm_dict[PDYm]+'00',
+     #        'pgbanl.gfs.'+PDYm_dict[PDYm]+'06',
+     #        'pgbanl.gfs.'+PDYm_dict[PDYm]+'12',
+     #        'pgbanl.gfs.'+PDYm_dict[PDYm]+'18',
+     #        'pgbanl.gdas.'+PDYm_dict[PDYm]+'00',
+     #        'pgbanl.gdas.'+PDYm_dict[PDYm]+'06',
+     #        'pgbanl.gdas.'+PDYm_dict[PDYm]+'12',
+     #        'pgbanl.gdas.'+PDYm_dict[PDYm]+'18',
+     #        'pgbf00.gfs.'+PDYm_dict[PDYm]+'00',
+     #        'pgbf00.gfs.'+PDYm_dict[PDYm]+'06',
+     #        'pgbf00.gfs.'+PDYm_dict[PDYm]+'12',
+     #        'pgbf00.gfs.'+PDYm_dict[PDYm]+'18',
+     #        'pgbf00.gdas.'+PDYm_dict[PDYm]+'00',
+     #        'pgbf00.gdas.'+PDYm_dict[PDYm]+'06',
+     #        'pgbf00.gdas.'+PDYm_dict[PDYm]+'12',
+     #        'pgbf00.gdas.'+PDYm_dict[PDYm]+'18',
+     #    ]
+     #    for wcoss2_gfs_PDYm_file in wcoss2_gfs_PDYm_file_list:
+     #        rsync_to_machines(
+     #            os.path.join(wcoss2_gfs_archive,
+     #                         wcoss2_gfs_PDYm_file),
+     #            hera_gfs_archive+'/.',
+     #            jet_gfs_archive+'/.'
+     #        )
      #print("\n-- Copying fit2obs files")
      #for PDYm in list(PDYm_dict.keys()):
      #    wcoss2_fit2obs_fnl_fits_PDYm_wildcard = os.path.join(
