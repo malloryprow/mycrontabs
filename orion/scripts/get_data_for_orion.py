@@ -630,119 +630,119 @@ for metplus_data in list(metplus_data_dict.keys()):
                     print("---- "+metplus_data_archive_file+" exists")
 
 ##### 3. Copy model archive files from Hera
-check_and_make_directory(
-    os.path.join(from_hera_working_dir_PDY, 'model_data')
-)
-# Model archive information dictionary
-model_data_dict = {
-    'gfs': {
-        'hera_dir': 'archive',
-        'hera_file_format_list': [
-            'pgbanl.gfs.{date?fmt=%Y%m%d}{time?fmt=%H}',
-            'pgbf00.gfs.{date?fmt=%Y%m%d}{time?fmt=%H}' 
-        ],
-        'archive_file_format_list': [
-            'pgbanl.gfs.{date?fmt=%Y%m%d}{time?fmt=%H}',
-            'pgbf00.gfs.{date?fmt=%Y%m%d}{time?fmt=%H}'
-        ],
-        'time_list': ['000000', '060000', '120000', '180000']
-    },
-
-}
-check_and_make_directory(model_archive_base_dir)
-print("\n- Checking model archive files in "
-      +model_archive_base_dir+", getting missing files from Hera")
-for model_data in list(model_data_dict.keys()):
-    # Set up information
-    model_data_info_dict = model_data_dict[model_data]
-    model_data_hera_dir = os.path.join(hera_base_user_dir,
-                                         model_data_info_dict['hera_dir'],
-                                         model_data)
-    model_data_hera_file_format_list = (
-        model_data_info_dict['hera_file_format_list']
-    )
-    model_data_archive_file_format_list = (
-        model_data_info_dict['archive_file_format_list']
-    )
-    model_data_time_list = model_data_info_dict['time_list']
-    # Set up directories
-    model_data_from_hera_working_dir_PDY = os.path.join(
-        from_hera_working_dir_PDY, 'model_data', model_data
-    )
-    check_and_make_directory(model_data_from_hera_working_dir_PDY)
-    model_data_archive_dir = os.path.join(
-        model_data_archive_base_dir, model_data
-    )
-    check_and_make_directory(model_data_archive_dir)
-    # Get files
-    print("-- Checking "+model_data+" archive files")
-    for PDYm in list(PDYm_dict.keys()):
-        for time in model_data_time_list:
-            PDYm_date_time = PDYm_dict[PDYm]+time
-            for model_data_archive_file_format \
-                    in model_data_archive_file_format_list:
-                idx = model_data_archive_file_format_list.index(
-                    model_data_archive_file_format
-                )
-                # Archive file information
-                model_data_archive_file_name = format_filler(
-                    model_data_archive_file_format, PDYm_date_time
-                )
-                model_data_archive_file = os.path.join(
-                    model_data_archive_dir, model_data_archive_file_name
-                )
-                print("--- Checking for file: "+model_data_archive_file)
-                if not os.path.exists(model_data_archive_file):
-                    print("---- "+model_data_archive_file+" does not exist, "
-                          +"retrieving file from Hera.")
-                    model_data_archive_file_dir = (
-                        model_data_archive_file.rpartition('/')[0]
-                    )
-                    check_and_make_directory(model_data_archive_file_dir)
-                    # Hera file information
-                    model_data_hera_file_format = (
-                       model_data_hera_file_format_list[idx]
-                    )
-                    model_data_hera_file_name = format_filler(
-                        model_data_hera_file_format, PDYm_date_time
-                    )
-                    model_data_hera_file = os.path.join(
-                        model_data_hera_dir, model_data_hera_file_name
-                    )
-                    # Working file information
-                    model_data_working_file = os.path.join(
-                        model_data_from_hera_working_dir_PDY,
-                        model_data_archive_file_name
-                    )
-                    model_data_working_file_dir = (
-                        model_data_working_file.rpartition('/')[0]
-                    )
-                    check_and_make_directory(model_data_working_file_dir)
-                    # Get file
-                    RSYNC_cmd = subprocess.run(
-                        [RSYNC,
-                         '-ahr', '-P',
-                         hera_user+'@'+hera_client+':'
-                         +model_data_hera_file,
-                         model_data_working_file]
-                    )
-                    if RSYNC_cmd.returncode == 0:
-                        CP_cmd = subprocess.run(
-                            [CP,
-                             model_data_working_file,
-                             model_data_archive_file]
-                        )
-                        if CP_cmd.returncode != 0:
-                            print("***ERROR*** Could not cp "
-                                  +model_data_working_file+" to "
-                                  +model_data_archive_file)
-                        else:
-                            # Change permissions
-                            change_permissions(model_data_archive_file)
-                    else:
-                        print("***ERROR*** Could not rsync "+model_data_hera_file)
-                else:
-                    print("---- "+model_data_archive_file+" exists")
+#check_and_make_directory(
+#    os.path.join(from_hera_working_dir_PDY, 'model_data')
+#)
+## Model archive information dictionary
+#model_data_dict = {
+#    'gfs': {
+#        'hera_dir': 'archive',
+#        'hera_file_format_list': [
+#           'pgbanl.gfs.{date?fmt=%Y%m%d}{time?fmt=%H}',
+#            'pgbf00.gfs.{date?fmt=%Y%m%d}{time?fmt=%H}' 
+#        ],
+#        'archive_file_format_list': [
+#            'pgbanl.gfs.{date?fmt=%Y%m%d}{time?fmt=%H}',
+#            'pgbf00.gfs.{date?fmt=%Y%m%d}{time?fmt=%H}'
+#        ],
+#        'time_list': ['000000', '060000', '120000', '180000']
+#    },
+#
+#}
+#check_and_make_directory(model_archive_base_dir)
+#print("\n- Checking model archive files in "
+#      +model_archive_base_dir+", getting missing files from Hera")
+#for model_data in list(model_data_dict.keys()):
+#    # Set up information
+#    model_data_info_dict = model_data_dict[model_data]
+#    model_data_hera_dir = os.path.join(hera_base_user_dir,
+#                                         model_data_info_dict['hera_dir'],
+#                                         model_data)
+#    model_data_hera_file_format_list = (
+#        model_data_info_dict['hera_file_format_list']
+#    )
+#    model_data_archive_file_format_list = (
+#        model_data_info_dict['archive_file_format_list']
+#    )
+#    model_data_time_list = model_data_info_dict['time_list']
+#    # Set up directories
+#    model_data_from_hera_working_dir_PDY = os.path.join(
+#        from_hera_working_dir_PDY, 'model_data', model_data
+#    )
+#    check_and_make_directory(model_data_from_hera_working_dir_PDY)
+#    model_data_archive_dir = os.path.join(
+#        model_data_archive_base_dir, model_data
+#    )
+#    check_and_make_directory(model_data_archive_dir)
+#    # Get files
+#    print("-- Checking "+model_data+" archive files")
+#    for PDYm in list(PDYm_dict.keys()):
+#        for time in model_data_time_list:
+#            PDYm_date_time = PDYm_dict[PDYm]+time
+#            for model_data_archive_file_format \
+#                    in model_data_archive_file_format_list:
+#                idx = model_data_archive_file_format_list.index(
+#                    model_data_archive_file_format
+#                )
+#                # Archive file information
+#                model_data_archive_file_name = format_filler(
+#                    model_data_archive_file_format, PDYm_date_time
+#                )
+#                model_data_archive_file = os.path.join(
+#                    model_data_archive_dir, model_data_archive_file_name
+#                )
+#                print("--- Checking for file: "+model_data_archive_file)
+#                if not os.path.exists(model_data_archive_file):
+#                    print("---- "+model_data_archive_file+" does not exist, "
+#                          +"retrieving file from Hera.")
+#                    model_data_archive_file_dir = (
+#                        model_data_archive_file.rpartition('/')[0]
+#                    )
+#                    check_and_make_directory(model_data_archive_file_dir)
+#                    # Hera file information
+#                    model_data_hera_file_format = (
+#                       model_data_hera_file_format_list[idx]
+#                    )
+#                    model_data_hera_file_name = format_filler(
+#                        model_data_hera_file_format, PDYm_date_time
+#                    )
+#                    model_data_hera_file = os.path.join(
+#                        model_data_hera_dir, model_data_hera_file_name
+#                    )
+#                    # Working file information
+#                    model_data_working_file = os.path.join(
+#                        model_data_from_hera_working_dir_PDY,
+#                        model_data_archive_file_name
+#                    )
+#                    model_data_working_file_dir = (
+#                        model_data_working_file.rpartition('/')[0]
+#                    )
+#                    check_and_make_directory(model_data_working_file_dir)
+#                    # Get file
+#                    RSYNC_cmd = subprocess.run(
+#                        [RSYNC,
+#                         '-ahr', '-P',
+#                         hera_user+'@'+hera_client+':'
+#                         +model_data_hera_file,
+#                         model_data_working_file]
+#                    )
+#                    if RSYNC_cmd.returncode == 0:
+#                        CP_cmd = subprocess.run(
+#                            [CP,
+#                             model_data_working_file,
+#                             model_data_archive_file]
+#                        )
+#                        if CP_cmd.returncode != 0:
+#                            print("***ERROR*** Could not cp "
+#                                  +model_data_working_file+" to "
+#                                  +model_data_archive_file)
+#                        else:
+#                            # Change permissions
+#                            change_permissions(model_data_archive_file)
+#                    else:
+#                        print("***ERROR*** Could not rsync "+model_data_hera_file)
+#                else:
+#                    print("---- "+model_data_archive_file+" exists")
 ##### 4. Copy HWRF track archive
 #hwrf_trak_archive_subdir_list = ['aid', 'aid_nws', 'btk']
 #hwrf_trak_hera_base_dir = os.path.join(hera_base_user_dir, 'trak', 'abdeck')
